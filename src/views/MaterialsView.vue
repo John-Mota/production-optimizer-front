@@ -3,12 +3,12 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-8">
       <div>
-        <h2 class="text-2xl font-bold text-white">Matérias-Primas</h2>
-        <p class="text-steel-400 mt-1">Gerencie o estoque de matérias-primas</p>
+        <h2 class="text-2xl font-bold text-white">{{ $t('materials.title') }}</h2>
+        <p class="text-steel-400 mt-1">{{ $t('materials.manage') }}</p>
       </div>
       <button @click="showForm = !showForm" class="btn-primary">
         <component :is="showForm ? X : Plus" :size="18" />
-        {{ showForm ? 'Cancelar' : 'Adicionar' }}
+        {{ showForm ? $t('common.cancel') : $t('common.add') }}
       </button>
     </div>
 
@@ -23,21 +23,21 @@
     >
       <div v-if="showForm" class="card p-6 mb-8">
         <h3 class="text-lg font-semibold text-white mb-4">
-          {{ editingId ? 'Editar Matéria-Prima' : 'Nova Matéria-Prima' }}
+          {{ editingId ? $t('materials.edit') : $t('materials.new') }}
         </h3>
         <form @submit.prevent="handleSubmit" class="flex items-end gap-4">
           <div class="flex-1">
-            <label class="block text-sm font-medium text-steel-300 mb-1.5">Nome</label>
+            <label class="block text-sm font-medium text-steel-300 mb-1.5">{{ $t('materials.name') }}</label>
             <input
               v-model="form.name"
               type="text"
-              placeholder="Ex: Barra de Aço"
+              :placeholder="$t('materials.namePlaceholder')"
               class="input-field"
               required
             />
           </div>
           <div class="w-48">
-            <label class="block text-sm font-medium text-steel-300 mb-1.5">Qtd. em Estoque</label>
+            <label class="block text-sm font-medium text-steel-300 mb-1.5">{{ $t('materials.stock') }}</label>
             <input
               v-model.number="form.stockQuantity"
               type="number"
@@ -50,7 +50,7 @@
           <button type="submit" class="btn-primary" :disabled="saving">
             <Loader2 v-if="saving" :size="18" class="animate-spin" />
             <Save v-else :size="18" />
-            {{ saving ? 'Salvando...' : 'Salvar' }}
+            {{ saving ? $t('common.saving') : $t('common.save') }}
           </button>
         </form>
       </div>
@@ -59,7 +59,7 @@
     <!-- Loading State -->
     <div v-if="loading" class="card p-12 flex flex-col items-center justify-center">
       <Loader2 :size="40" class="text-forge-500 animate-spin mb-4" />
-      <p class="text-steel-400">Carregando matérias-primas...</p>
+      <p class="text-steel-400">{{ $t('common.loading') }}</p>
     </div>
 
     <!-- Empty State -->
@@ -67,8 +67,8 @@
       <div class="w-16 h-16 bg-steel-800 rounded-2xl flex items-center justify-center mb-4">
         <Box :size="32" class="text-steel-600" />
       </div>
-      <h3 class="text-lg font-semibold text-steel-300 mb-1">Nenhuma Matéria-Prima</h3>
-      <p class="text-steel-500 text-sm">Adicione sua primeira matéria-prima para começar.</p>
+      <h3 class="text-lg font-semibold text-steel-300 mb-1">{{ $t('materials.noMaterials') }}</h3>
+      <p class="text-steel-500 text-sm">{{ $t('materials.addFirst') }}</p>
     </div>
 
     <!-- Materials Table -->
@@ -76,9 +76,9 @@
       <table class="w-full">
         <thead>
           <tr class="border-b border-steel-800">
-            <th class="table-header text-left py-4 px-6">Nome</th>
-            <th class="table-header text-left py-4 px-6">Qtd. em Estoque</th>
-            <th class="table-header text-right py-4 px-6">Ações</th>
+            <th class="table-header text-left py-4 px-6">{{ $t('materials.name') }}</th>
+            <th class="table-header text-left py-4 px-6">{{ $t('materials.stock') }}</th>
+            <th class="table-header text-right py-4 px-6">{{ $t('common.actions') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -97,11 +97,11 @@
               <div class="flex items-center justify-end gap-2">
                 <button @click="startEdit(material)" class="btn-secondary text-sm py-1.5 px-3">
                   <Pencil :size="14" />
-                  Editar
+                  {{ $t('common.edit') }}
                 </button>
                 <button @click="handleDelete(material.id)" class="btn-danger text-sm py-1.5 px-3">
                   <Trash2 :size="14" />
-                  Excluir
+                  {{ $t('common.delete') }}
                 </button>
               </div>
             </td>
@@ -114,9 +114,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Plus, X, Save, Loader2, Pencil, Trash2, Box } from 'lucide-vue-next'
 import { getMaterials, createMaterial, updateMaterial, deleteMaterial } from '../services/api'
 
+const { t } = useI18n()
 const materials = ref([])
 const loading = ref(true)
 const saving = ref(false)
@@ -170,7 +172,7 @@ const startEdit = (material) => {
 }
 
 const handleDelete = async (id) => {
-  if (!confirm('Tem certeza que deseja excluir esta matéria-prima?')) return
+  if (!confirm(t('common.confirmDelete'))) return
   try {
     await deleteMaterial(id)
     await fetchMaterials()

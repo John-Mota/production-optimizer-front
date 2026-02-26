@@ -3,16 +3,16 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-8">
       <div>
-        <h2 class="text-2xl font-bold text-white">Produtos</h2>
-        <p class="text-steel-400 mt-1">Defina produtos e sua composição de materiais</p>
+        <h2 class="text-2xl font-bold text-white">{{ $t('products.title') }}</h2>
+        <p class="text-steel-400 mt-1">{{ $t('products.define') }}</p>
       </div>
-      <button @click="showForm = !showForm" class="btn-primary">
+      <button @click="toggleForm" class="btn-primary">
         <component :is="showForm ? X : Plus" :size="18" />
-        {{ showForm ? 'Cancelar' : 'Adicionar Produto' }}
+        {{ showForm ? $t('common.cancel') : $t('products.addProduct') }}
       </button>
     </div>
 
-    <!-- Add Product Form -->
+    <!-- Add / Edit Product Form -->
     <Transition
       enter-active-class="transition-all duration-300 ease-out"
       enter-from-class="opacity-0 -translate-y-4"
@@ -22,22 +22,24 @@
       leave-to-class="opacity-0 -translate-y-4"
     >
       <div v-if="showForm" class="card p-6 mb-8">
-        <h3 class="text-lg font-semibold text-white mb-4">Novo Produto</h3>
+        <h3 class="text-lg font-semibold text-white mb-4">
+          {{ editingId ? $t('products.edit') : $t('products.new') }}
+        </h3>
         <form @submit.prevent="handleSubmit">
           <!-- Product Info -->
           <div class="grid grid-cols-2 gap-4 mb-6">
             <div>
-              <label class="block text-sm font-medium text-steel-300 mb-1.5">Nome do Produto</label>
+              <label class="block text-sm font-medium text-steel-300 mb-1.5">{{ $t('products.name') }}</label>
               <input
                 v-model="form.name"
                 type="text"
-                placeholder="Ex: Engrenagem Industrial"
+                :placeholder="$t('products.namePlaceholder')"
                 class="input-field"
                 required
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-steel-300 mb-1.5">Preço de Venda (R$)</label>
+              <label class="block text-sm font-medium text-steel-300 mb-1.5">{{ $t('products.price') }}</label>
               <input
                 :value="displayPrice"
                 @input="handlePriceInput"
@@ -53,19 +55,19 @@
           <!-- Composition -->
           <div class="mb-6">
             <div class="flex items-center justify-between mb-3">
-              <label class="text-sm font-medium text-steel-300">Composição de Materiais</label>
+              <label class="text-sm font-medium text-steel-300">{{ $t('products.composition') }}</label>
               <button
                 type="button"
                 @click="addCompositionRow"
                 class="btn-secondary text-sm py-1.5 px-3"
               >
                 <PlusCircle :size="14" />
-                Adicionar Linha
+                {{ $t('products.addLine') }}
               </button>
             </div>
 
             <div v-if="form.composition.length === 0" class="p-6 border border-dashed border-steel-700 rounded-xl text-center">
-              <p class="text-steel-500 text-sm">Nenhum material adicionado. Clique em "Adicionar Linha" para definir a composição.</p>
+              <p class="text-steel-500 text-sm">{{ $t('products.noMaterials') }}</p>
             </div>
 
             <div v-else class="space-y-3">
@@ -76,7 +78,7 @@
               >
                 <div class="flex-1">
                   <select v-model="row.rawMaterialId" class="input-field text-sm" required>
-                    <option value="" disabled>Selecione um material</option>
+                    <option value="" disabled>{{ locale === 'pt-BR' ? 'Selecione um material' : 'Select a material' }}</option>
                     <option v-for="mat in availableMaterials" :key="mat.id" :value="mat.id">
                       {{ mat.name }}
                     </option>
@@ -87,7 +89,7 @@
                     v-model.number="row.quantity"
                     type="number"
                     min="1"
-                    placeholder="Qtd"
+                    placeholder="Qty"
                     class="input-field text-sm"
                     required
                   />
@@ -108,7 +110,7 @@
             <button type="submit" class="btn-primary" :disabled="saving">
               <Loader2 v-if="saving" :size="18" class="animate-spin" />
               <Save v-else :size="18" />
-              {{ saving ? 'Salvando...' : 'Salvar Produto' }}
+              {{ saving ? $t('common.saving') : (editingId ? $t('common.save') : $t('products.addProduct')) }}
             </button>
           </div>
         </form>
@@ -118,7 +120,7 @@
     <!-- Loading State -->
     <div v-if="loading" class="card p-12 flex flex-col items-center justify-center">
       <Loader2 :size="40" class="text-forge-500 animate-spin mb-4" />
-      <p class="text-steel-400">Carregando produtos...</p>
+      <p class="text-steel-400">{{ $t('common.loading') }}</p>
     </div>
 
     <!-- Empty State -->
@@ -126,8 +128,8 @@
       <div class="w-16 h-16 bg-steel-800 rounded-2xl flex items-center justify-center mb-4">
         <Package :size="32" class="text-steel-600" />
       </div>
-      <h3 class="text-lg font-semibold text-steel-300 mb-1">Nenhum Produto</h3>
-      <p class="text-steel-500 text-sm">Crie seu primeiro produto com sua composição de materiais.</p>
+      <h3 class="text-lg font-semibold text-steel-300 mb-1">{{ $t('products.noProducts') }}</h3>
+      <p class="text-steel-500 text-sm">{{ $t('products.addFirst') }}</p>
     </div>
 
     <!-- Products Table -->
@@ -135,10 +137,10 @@
       <table class="w-full">
         <thead>
           <tr class="border-b border-steel-800">
-            <th class="table-header text-left py-4 px-6">Produto</th>
-            <th class="table-header text-left py-4 px-6">Preço de Venda</th>
-            <th class="table-header text-left py-4 px-6">Composição</th>
-            <th class="table-header text-right py-4 px-6">Ações</th>
+            <th class="table-header text-left py-4 px-6">{{ $t('products.product') }}</th>
+            <th class="table-header text-left py-4 px-6">{{ $t('products.salePrice') }}</th>
+            <th class="table-header text-left py-4 px-6">{{ $t('products.composition') }}</th>
+            <th class="table-header text-right py-4 px-6">{{ $t('common.actions') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -150,7 +152,7 @@
             <td class="table-cell font-medium">{{ product.name }}</td>
             <td class="table-cell">
               <span class="text-forge-400 font-semibold">
-                R$ {{ formatBRL(product.salePrice) }}
+                {{ formatCurrency(product.salePrice) }}
               </span>
             </td>
             <td class="table-cell">
@@ -166,10 +168,16 @@
               </div>
             </td>
             <td class="table-cell text-right">
-              <button @click="handleDelete(product.id)" class="btn-danger text-sm py-1.5 px-3">
-                <Trash2 :size="14" />
-                Excluir
-              </button>
+              <div class="flex items-center justify-end gap-2">
+                <button @click="startEdit(product)" class="btn-secondary text-sm py-1.5 px-3">
+                  <Pencil :size="14" />
+                  {{ $t('common.edit') }}
+                </button>
+                <button @click="handleDelete(product.id)" class="btn-danger text-sm py-1.5 px-3">
+                  <Trash2 :size="14" />
+                  {{ $t('common.delete') }}
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -180,14 +188,17 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { Plus, X, Save, Loader2, PlusCircle, Minus, Trash2, Package } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
+import { Plus, X, Save, Loader2, PlusCircle, Minus, Pencil, Trash2, Package } from 'lucide-vue-next'
 import { getProducts, createProduct, deleteProduct, getMaterials } from '../services/api'
 
+const { t, locale } = useI18n()
 const products = ref([])
 const availableMaterials = ref([])
 const loading = ref(true)
 const saving = ref(false)
 const showForm = ref(false)
+const editingId = ref(null)
 
 // Raw price in centavos (integer)
 const priceInCents = ref(0)
@@ -200,9 +211,14 @@ const createEmptyForm = () => ({
 
 const form = ref(createEmptyForm())
 
-// Format a number as BRL string (e.g. 1250.5 → "1.250,50")
-const formatBRL = (value) => {
-  return Number(value).toLocaleString('pt-BR', {
+// Format a number as currency string based on locale
+const formatCurrency = (value) => {
+  const currency = locale.value === 'pt-BR' ? 'BRL' : 'USD'
+  const style = locale.value === 'pt-BR' ? 'pt-BR' : 'en-US'
+  
+  return Number(value).toLocaleString(style, {
+    style: 'currency',
+    currency: currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })
@@ -210,7 +226,12 @@ const formatBRL = (value) => {
 
 // Display price derived from centavos
 const displayPrice = computed(() => {
-  return formatBRL(priceInCents.value / 100)
+  const value = priceInCents.value / 100
+  const style = locale.value === 'pt-BR' ? 'pt-BR' : 'en-US'
+  return Number(value).toLocaleString(style, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
 })
 
 // Handle price input: strip non-digits, treat as centavos
@@ -218,6 +239,19 @@ const handlePriceInput = (event) => {
   const raw = event.target.value.replace(/\D/g, '')
   priceInCents.value = parseInt(raw || '0', 10)
   form.value.salePrice = priceInCents.value / 100
+}
+
+const resetForm = () => {
+  form.value = createEmptyForm()
+  priceInCents.value = 0
+  editingId.value = null
+}
+
+const toggleForm = () => {
+  if (showForm.value) {
+    resetForm()
+  }
+  showForm.value = !showForm.value
 }
 
 const addCompositionRow = () => {
@@ -241,12 +275,28 @@ const fetchData = async () => {
   }
 }
 
+const startEdit = (product) => {
+  editingId.value = product.id
+  form.value = {
+    name: product.name,
+    salePrice: product.salePrice,
+    composition: product.composition.map((c) => ({ ...c })),
+  }
+  priceInCents.value = Math.round(product.salePrice * 100)
+  showForm.value = true
+}
+
 const handleSubmit = async () => {
   saving.value = true
   try {
-    await createProduct(form.value)
-    form.value = createEmptyForm()
-    priceInCents.value = 0
+    if (editingId.value) {
+      // Backend has no PUT for products — recreate via DELETE + POST
+      await deleteProduct(editingId.value)
+      await createProduct(form.value)
+    } else {
+      await createProduct(form.value)
+    }
+    resetForm()
     showForm.value = false
     await fetchData()
   } catch (error) {
@@ -257,7 +307,7 @@ const handleSubmit = async () => {
 }
 
 const handleDelete = async (id) => {
-  if (!confirm('Tem certeza que deseja excluir este produto?')) return
+  if (!confirm(t('common.confirmDelete'))) return
   try {
     await deleteProduct(id)
     await fetchData()
@@ -268,7 +318,7 @@ const handleDelete = async (id) => {
 
 const getMaterialName = (materialId) => {
   const mat = availableMaterials.value.find((m) => m.id === materialId)
-  return mat ? mat.name : 'Desconhecido'
+  return mat ? mat.name : locale.value === 'pt-BR' ? 'Desconhecido' : 'Unknown'
 }
 
 onMounted(fetchData)
