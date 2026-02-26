@@ -93,17 +93,17 @@
               :key="index"
               class="border-b border-steel-800/50 hover:bg-steel-800/30 transition-colors"
             >
-              <td class="table-cell font-medium">{{ suggestion.product?.name || suggestion.productName || '—' }}</td>
+              <td class="table-cell font-medium">{{ suggestion.product.name }}</td>
               <td class="table-cell">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-forge-600/10 text-forge-400 rounded-lg text-sm font-semibold">
                   {{ suggestion.quantity }}
                 </span>
               </td>
               <td class="table-cell text-steel-300">
-                R$ {{ Number(suggestion.product?.salePrice || suggestion.unitPrice || 0).toFixed(2) }}
+                R$ {{ Number(suggestion.product.salePrice).toFixed(2) }}
               </td>
               <td class="table-cell text-right font-semibold text-white">
-                R$ {{ (suggestion.quantity * (suggestion.product?.salePrice || suggestion.unitPrice || 0)).toFixed(2) }}
+                R$ {{ (suggestion.quantity * suggestion.product.salePrice).toFixed(2) }}
               </td>
             </tr>
           </tbody>
@@ -133,7 +133,7 @@ const handleOptimize = async () => {
     console.error('Optimization failed:', err)
     error.value =
       err.response?.data?.message ||
-      'Could not connect to the optimization server. Make sure the back-end is running on localhost:8080.'
+      'Could not connect to the optimization server. Please try again later.'
   } finally {
     optimizing.value = false
   }

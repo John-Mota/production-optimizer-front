@@ -1,8 +1,7 @@
 import axios, { type AxiosPromise } from 'axios'
 
 const api = axios.create({
-  // baseURL: 'http://localhost:8080/api',
-  baseURL: 'https://production-optimizer-back.onrender.com/api',
+  baseURL: '/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -28,9 +27,7 @@ export interface Product {
 }
 
 export interface ProductionSuggestion {
-  product?: Product
-  productName?: string
-  unitPrice?: number
+  product: Product
   quantity: number
 }
 
@@ -40,10 +37,10 @@ export interface OptimizationResult {
 }
 
 // ── Materials (Raw Materials / Insumos) ──────────────────────────
-export const getMaterials = (): AxiosPromise<Material[]> => api.get('/raw-materials')
-export const createMaterial = (data: Omit<Material, 'id'>): AxiosPromise<Material> => api.post('/raw-materials', data)
-export const updateMaterial = (id: string, data: Omit<Material, 'id'>): AxiosPromise<Material> => api.put(`/raw-materials/${id}`, data)
-export const deleteMaterial = (id: string): AxiosPromise<void> => api.delete(`/raw-materials/${id}`)
+export const getMaterials = (): AxiosPromise<Material[]> => api.get('/materials')
+export const createMaterial = (data: Omit<Material, 'id'>): AxiosPromise<Material> => api.post('/materials', data)
+export const updateMaterial = (id: string, data: Omit<Material, 'id'>): AxiosPromise<Material> => api.put(`/materials/${id}`, data)
+export const deleteMaterial = (id: string): AxiosPromise<void> => api.delete(`/materials/${id}`)
 
 // ── Products ─────────────────────────────────────────────────────
 export const getProducts = (): AxiosPromise<Product[]> => api.get('/products')
@@ -51,6 +48,6 @@ export const createProduct = (data: Omit<Product, 'id'>): AxiosPromise<Product> 
 export const deleteProduct = (id: string): AxiosPromise<void> => api.delete(`/products/${id}`)
 
 // ── Optimization ─────────────────────────────────────────────────
-export const runOptimization = (): AxiosPromise<OptimizationResult> => api.get('/optimization')
+export const runOptimization = (): AxiosPromise<OptimizationResult> => api.get('/optimization/optimize')
 
 export default api
