@@ -3,13 +3,13 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-8">
       <div>
-        <h2 class="text-2xl font-bold text-white">Production Optimization</h2>
-        <p class="text-steel-400 mt-1">Calculate ideal production quantities for maximum profit</p>
+        <h2 class="text-2xl font-bold text-white">Otimização de Produção</h2>
+        <p class="text-steel-400 mt-1">Calcule as quantidades ideais de produção para lucro máximo</p>
       </div>
       <button @click="handleOptimize" class="btn-primary" :disabled="optimizing">
         <Loader2 v-if="optimizing" :size="18" class="animate-spin" />
         <Play v-else :size="18" />
-        {{ optimizing ? 'Calculating...' : 'Run Optimization' }}
+        {{ optimizing ? 'Calculando...' : 'Executar Otimização' }}
       </button>
     </div>
 
@@ -18,8 +18,8 @@
       <div class="relative mb-6">
         <div class="w-20 h-20 rounded-full border-4 border-steel-800 border-t-forge-500 animate-spin" />
       </div>
-      <h3 class="text-lg font-semibold text-white mb-1">Optimizing Production</h3>
-      <p class="text-steel-400 text-sm">Running linear programming algorithm...</p>
+      <h3 class="text-lg font-semibold text-white mb-1">Otimizando Produção</h3>
+      <p class="text-steel-400 text-sm">Executando algoritmo de programação linear...</p>
     </div>
 
     <!-- Error State -->
@@ -29,11 +29,11 @@
           <AlertTriangle :size="24" class="text-red-400" />
         </div>
         <div>
-          <h3 class="text-lg font-semibold text-red-400 mb-1">Optimization Failed</h3>
+          <h3 class="text-lg font-semibold text-red-400 mb-1">Falha na Otimização</h3>
           <p class="text-steel-400 text-sm">{{ error }}</p>
           <button @click="handleOptimize" class="btn-secondary mt-4 text-sm">
             <RotateCcw :size="14" />
-            Try Again
+            Tentar Novamente
           </button>
         </div>
       </div>
@@ -44,9 +44,9 @@
       <div class="w-16 h-16 bg-steel-800 rounded-2xl flex items-center justify-center mb-4">
         <BarChart3 :size="32" class="text-steel-600" />
       </div>
-      <h3 class="text-lg font-semibold text-steel-300 mb-1">Ready to Optimize</h3>
+      <h3 class="text-lg font-semibold text-steel-300 mb-1">Pronto para Otimizar</h3>
       <p class="text-steel-500 text-sm text-center max-w-md">
-        Click "Run Optimization" to calculate the best production mix based on your available raw materials and product definitions.
+        Clique em "Executar Otimização" para calcular o melhor mix de produção baseado nas matérias-primas disponíveis e nos produtos cadastrados.
       </p>
     </div>
 
@@ -59,7 +59,7 @@
             <TrendingUp :size="28" class="text-forge-400" />
           </div>
           <div>
-            <p class="text-sm text-steel-400 font-medium">Total Projected Profit</p>
+            <p class="text-sm text-steel-400 font-medium">Lucro Total Projetado</p>
             <p class="text-3xl font-bold text-forge-400">
               R$ {{ Number(result.totalProjectedValue).toFixed(2) }}
             </p>
@@ -70,20 +70,20 @@
       <!-- Suggestions Table -->
       <div class="card overflow-hidden">
         <div class="px-6 py-4 border-b border-steel-800">
-          <h3 class="text-lg font-semibold text-white">Production Suggestions</h3>
-          <p class="text-steel-400 text-sm mt-0.5">Recommended quantities for each product</p>
+          <h3 class="text-lg font-semibold text-white">Sugestões de Produção</h3>
+          <p class="text-steel-400 text-sm mt-0.5">Quantidades recomendadas para cada produto</p>
         </div>
 
         <div v-if="result.productionSuggestions.length === 0" class="p-8 text-center">
-          <p class="text-steel-500 text-sm">No production suggestions available.</p>
+          <p class="text-steel-500 text-sm">Nenhuma sugestão de produção disponível.</p>
         </div>
 
         <table v-else class="w-full">
           <thead>
             <tr class="border-b border-steel-800">
-              <th class="table-header text-left py-4 px-6">Product</th>
-              <th class="table-header text-left py-4 px-6">Suggested Quantity</th>
-              <th class="table-header text-left py-4 px-6">Unit Price</th>
+              <th class="table-header text-left py-4 px-6">Produto</th>
+              <th class="table-header text-left py-4 px-6">Qtd. Sugerida</th>
+              <th class="table-header text-left py-4 px-6">Preço Unit.</th>
               <th class="table-header text-right py-4 px-6">Subtotal</th>
             </tr>
           </thead>
@@ -133,7 +133,7 @@ const handleOptimize = async () => {
     console.error('Optimization failed:', err)
     error.value =
       err.response?.data?.message ||
-      'Could not connect to the optimization server. Please try again later.'
+      'Não foi possível conectar ao servidor de otimização. Tente novamente mais tarde.'
   } finally {
     optimizing.value = false
   }

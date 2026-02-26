@@ -3,12 +3,12 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-8">
       <div>
-        <h2 class="text-2xl font-bold text-white">Products</h2>
-        <p class="text-steel-400 mt-1">Define products and their material composition</p>
+        <h2 class="text-2xl font-bold text-white">Produtos</h2>
+        <p class="text-steel-400 mt-1">Defina produtos e sua composição de materiais</p>
       </div>
       <button @click="showForm = !showForm" class="btn-primary">
         <component :is="showForm ? X : Plus" :size="18" />
-        {{ showForm ? 'Cancel' : 'Add Product' }}
+        {{ showForm ? 'Cancelar' : 'Adicionar Produto' }}
       </button>
     </div>
 
@@ -22,28 +22,28 @@
       leave-to-class="opacity-0 -translate-y-4"
     >
       <div v-if="showForm" class="card p-6 mb-8">
-        <h3 class="text-lg font-semibold text-white mb-4">New Product</h3>
+        <h3 class="text-lg font-semibold text-white mb-4">Novo Produto</h3>
         <form @submit.prevent="handleSubmit">
           <!-- Product Info -->
           <div class="grid grid-cols-2 gap-4 mb-6">
             <div>
-              <label class="block text-sm font-medium text-steel-300 mb-1.5">Product Name</label>
+              <label class="block text-sm font-medium text-steel-300 mb-1.5">Nome do Produto</label>
               <input
                 v-model="form.name"
                 type="text"
-                placeholder="e.g. Industrial Gear"
+                placeholder="Ex: Engrenagem Industrial"
                 class="input-field"
                 required
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-steel-300 mb-1.5">Sale Price (R$)</label>
+              <label class="block text-sm font-medium text-steel-300 mb-1.5">Preço de Venda (R$)</label>
               <input
-                v-model.number="form.salePrice"
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder="0.00"
+                :value="displayPrice"
+                @input="handlePriceInput"
+                type="text"
+                inputmode="numeric"
+                placeholder="0,00"
                 class="input-field"
                 required
               />
@@ -53,19 +53,19 @@
           <!-- Composition -->
           <div class="mb-6">
             <div class="flex items-center justify-between mb-3">
-              <label class="text-sm font-medium text-steel-300">Material Composition</label>
+              <label class="text-sm font-medium text-steel-300">Composição de Materiais</label>
               <button
                 type="button"
                 @click="addCompositionRow"
                 class="btn-secondary text-sm py-1.5 px-3"
               >
                 <PlusCircle :size="14" />
-                Add Row
+                Adicionar Linha
               </button>
             </div>
 
             <div v-if="form.composition.length === 0" class="p-6 border border-dashed border-steel-700 rounded-xl text-center">
-              <p class="text-steel-500 text-sm">No materials added yet. Click "Add Row" to define the composition.</p>
+              <p class="text-steel-500 text-sm">Nenhum material adicionado. Clique em "Adicionar Linha" para definir a composição.</p>
             </div>
 
             <div v-else class="space-y-3">
@@ -76,7 +76,7 @@
               >
                 <div class="flex-1">
                   <select v-model="row.rawMaterialId" class="input-field text-sm" required>
-                    <option value="" disabled>Select a material</option>
+                    <option value="" disabled>Selecione um material</option>
                     <option v-for="mat in availableMaterials" :key="mat.id" :value="mat.id">
                       {{ mat.name }}
                     </option>
@@ -87,7 +87,7 @@
                     v-model.number="row.quantity"
                     type="number"
                     min="1"
-                    placeholder="Qty"
+                    placeholder="Qtd"
                     class="input-field text-sm"
                     required
                   />
@@ -108,7 +108,7 @@
             <button type="submit" class="btn-primary" :disabled="saving">
               <Loader2 v-if="saving" :size="18" class="animate-spin" />
               <Save v-else :size="18" />
-              {{ saving ? 'Saving...' : 'Save Product' }}
+              {{ saving ? 'Salvando...' : 'Salvar Produto' }}
             </button>
           </div>
         </form>
@@ -118,7 +118,7 @@
     <!-- Loading State -->
     <div v-if="loading" class="card p-12 flex flex-col items-center justify-center">
       <Loader2 :size="40" class="text-forge-500 animate-spin mb-4" />
-      <p class="text-steel-400">Loading products...</p>
+      <p class="text-steel-400">Carregando produtos...</p>
     </div>
 
     <!-- Empty State -->
@@ -126,8 +126,8 @@
       <div class="w-16 h-16 bg-steel-800 rounded-2xl flex items-center justify-center mb-4">
         <Package :size="32" class="text-steel-600" />
       </div>
-      <h3 class="text-lg font-semibold text-steel-300 mb-1">No Products Yet</h3>
-      <p class="text-steel-500 text-sm">Create your first product with its material composition.</p>
+      <h3 class="text-lg font-semibold text-steel-300 mb-1">Nenhum Produto</h3>
+      <p class="text-steel-500 text-sm">Crie seu primeiro produto com sua composição de materiais.</p>
     </div>
 
     <!-- Products Table -->
@@ -135,10 +135,10 @@
       <table class="w-full">
         <thead>
           <tr class="border-b border-steel-800">
-            <th class="table-header text-left py-4 px-6">Product</th>
-            <th class="table-header text-left py-4 px-6">Sale Price</th>
-            <th class="table-header text-left py-4 px-6">Composition</th>
-            <th class="table-header text-right py-4 px-6">Actions</th>
+            <th class="table-header text-left py-4 px-6">Produto</th>
+            <th class="table-header text-left py-4 px-6">Preço de Venda</th>
+            <th class="table-header text-left py-4 px-6">Composição</th>
+            <th class="table-header text-right py-4 px-6">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -150,7 +150,7 @@
             <td class="table-cell font-medium">{{ product.name }}</td>
             <td class="table-cell">
               <span class="text-forge-400 font-semibold">
-                R$ {{ Number(product.salePrice).toFixed(2) }}
+                R$ {{ formatBRL(product.salePrice) }}
               </span>
             </td>
             <td class="table-cell">
@@ -168,7 +168,7 @@
             <td class="table-cell text-right">
               <button @click="handleDelete(product.id)" class="btn-danger text-sm py-1.5 px-3">
                 <Trash2 :size="14" />
-                Delete
+                Excluir
               </button>
             </td>
           </tr>
@@ -179,7 +179,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Plus, X, Save, Loader2, PlusCircle, Minus, Trash2, Package } from 'lucide-vue-next'
 import { getProducts, createProduct, deleteProduct, getMaterials } from '../services/api'
 
@@ -189,6 +189,9 @@ const loading = ref(true)
 const saving = ref(false)
 const showForm = ref(false)
 
+// Raw price in centavos (integer)
+const priceInCents = ref(0)
+
 const createEmptyForm = () => ({
   name: '',
   salePrice: 0,
@@ -196,6 +199,26 @@ const createEmptyForm = () => ({
 })
 
 const form = ref(createEmptyForm())
+
+// Format a number as BRL string (e.g. 1250.5 → "1.250,50")
+const formatBRL = (value) => {
+  return Number(value).toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+}
+
+// Display price derived from centavos
+const displayPrice = computed(() => {
+  return formatBRL(priceInCents.value / 100)
+})
+
+// Handle price input: strip non-digits, treat as centavos
+const handlePriceInput = (event) => {
+  const raw = event.target.value.replace(/\D/g, '')
+  priceInCents.value = parseInt(raw || '0', 10)
+  form.value.salePrice = priceInCents.value / 100
+}
 
 const addCompositionRow = () => {
   form.value.composition.push({ rawMaterialId: '', quantity: 1 })
@@ -223,6 +246,7 @@ const handleSubmit = async () => {
   try {
     await createProduct(form.value)
     form.value = createEmptyForm()
+    priceInCents.value = 0
     showForm.value = false
     await fetchData()
   } catch (error) {
@@ -233,7 +257,7 @@ const handleSubmit = async () => {
 }
 
 const handleDelete = async (id) => {
-  if (!confirm('Are you sure you want to delete this product?')) return
+  if (!confirm('Tem certeza que deseja excluir este produto?')) return
   try {
     await deleteProduct(id)
     await fetchData()
@@ -244,7 +268,7 @@ const handleDelete = async (id) => {
 
 const getMaterialName = (materialId) => {
   const mat = availableMaterials.value.find((m) => m.id === materialId)
-  return mat ? mat.name : 'Unknown'
+  return mat ? mat.name : 'Desconhecido'
 }
 
 onMounted(fetchData)

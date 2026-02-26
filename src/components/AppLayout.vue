@@ -9,8 +9,8 @@
             <Cog :size="22" class="text-white" />
           </div>
           <div>
-            <h1 class="text-sm font-bold text-white tracking-wide">Production</h1>
-            <p class="text-xs text-steel-400 font-medium">Optimizer</p>
+            <h1 class="text-sm font-bold text-white tracking-wide">Otimizador de</h1>
+            <p class="text-xs text-steel-400 font-medium">Produção</p>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
 
       <!-- Footer -->
       <div class="px-6 py-4 border-t border-steel-800">
-        <p class="text-xs text-steel-600 text-center">v1.0.0 — Industrial Suite</p>
+        <p class="text-xs text-steel-600 text-center">v1.0.0 — Sistema Industrial</p>
       </div>
     </aside>
 
@@ -52,8 +52,8 @@
 import { Cog, Package, Box, BarChart3 } from 'lucide-vue-next'
 
 const navItems = [
-  { path: '/materials', label: 'Materials', icon: Box },
-  { path: '/products', label: 'Products', icon: Package },
-  { path: '/optimization', label: 'Optimization', icon: BarChart3 },
+  { path: '/materials', label: 'Matérias-Primas', icon: Box },
+  { path: '/products', label: 'Produtos', icon: Package },
+  { path: '/optimization', label: 'Otimização', icon: BarChart3 },
 ]
 </script>
