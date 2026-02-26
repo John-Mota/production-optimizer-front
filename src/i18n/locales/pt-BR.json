@@ -1,0 +1,70 @@
+{
+  "nav": {
+    "materials": "Matérias-Primas",
+    "products": "Produtos",
+    "optimization": "Otimização"
+  },
+  "layout": {
+    "title": "Otimizador de",
+    "subtitle": "Produção",
+    "suite": "v1.0.0 — Sistema Industrial"
+  },
+  "common": {
+    "add": "Adicionar",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "saving": "Salvando...",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "actions": "Ações",
+    "loading": "Carregando...",
+    "confirmDelete": "Tem certeza que deseja excluir este item?"
+  },
+  "materials": {
+    "title": "Matérias-Primas",
+    "manage": "Gerencie o estoque de matérias-primas",
+    "new": "Nova Matéria-Prima",
+    "edit": "Editar Matéria-Prima",
+    "name": "Nome",
+    "namePlaceholder": "Ex: Barra de Aço",
+    "stock": "Qtd. em Estoque",
+    "noMaterials": "Nenhuma Matéria-Prima",
+    "addFirst": "Adicione sua primeira matéria-prima para começar."
+  },
+  "products": {
+    "title": "Produtos",
+    "define": "Defina produtos e sua composição de materiais",
+    "new": "Novo Produto",
+    "edit": "Editar Produto",
+    "addProduct": "Adicionar Produto",
+    "name": "Nome do Produto",
+    "namePlaceholder": "Ex: Engrenagem Industrial",
+    "price": "Preço de Venda (R$)",
+    "composition": "Composição de Materiais",
+    "addLine": "Adicionar Linha",
+    "noMaterials": "Nenhum material adicionado. Clique em \"Adicionar Linha\" para definir a composição.",
+    "noProducts": "Nenhum Produto",
+    "addFirst": "Crie seu primeiro produto com sua composição de materiais.",
+    "product": "Produto",
+    "salePrice": "Preço de Venda"
+  },
+  "optimization": {
+    "title": "Otimização de Produção",
+    "description": "Calcule as quantidades ideais de produção para lucro máximo",
+    "run": "Executar Otimização",
+    "calculating": "Calculando...",
+    "optimizing": "Otimizando Produção",
+    "algorithm": "Executando algoritmo de programação linear...",
+    "failed": "Falha na Otimização",
+    "tryAgain": "Tentar Novamente",
+    "ready": "Pronto para Otimizar",
+    "readyDescription": "Clique em \"Executar Otimização\" para calcular o melhor mix de produção baseado nas matérias-primas disponíveis e nos produtos cadastrados.",
+    "projectedProfit": "Lucro Total Projetado",
+    "suggestions": "Sugestões de Produção",
+    "suggestionsSub": "Quantidades recomendadas para cada produto",
+    "noSuggestions": "Nenhuma sugestão de produção disponível.",
+    "suggestedQty": "Qtd. Sugerida",
+    "unitPrice": "Preço Unit.",
+    "subtotal": "Subtotal"
+  }
+}

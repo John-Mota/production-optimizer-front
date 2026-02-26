@@ -1,0 +1,70 @@
+{
+  "nav": {
+    "materials": "Materials",
+    "products": "Products",
+    "optimization": "Optimization"
+  },
+  "layout": {
+    "title": "Production",
+    "subtitle": "Optimizer",
+    "suite": "v1.0.0 — Industrial Suite"
+  },
+  "common": {
+    "add": "Add",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "edit": "Edit",
+    "delete": "Delete",
+    "actions": "Actions",
+    "loading": "Loading...",
+    "confirmDelete": "Are you sure you want to delete this item?"
+  },
+  "materials": {
+    "title": "Raw Materials",
+    "manage": "Manage your inventory of raw materials",
+    "new": "New Material",
+    "edit": "Edit Material",
+    "name": "Name",
+    "namePlaceholder": "e.g. Steel Rod",
+    "stock": "Stock Quantity",
+    "noMaterials": "No Materials Yet",
+    "addFirst": "Add your first raw material to get started."
+  },
+  "products": {
+    "title": "Products",
+    "define": "Define products and their material composition",
+    "new": "New Product",
+    "edit": "Edit Product",
+    "addProduct": "Add Product",
+    "name": "Product Name",
+    "namePlaceholder": "e.g. Industrial Gear",
+    "price": "Sale Price ($)",
+    "composition": "Material Composition",
+    "addLine": "Add Row",
+    "noMaterials": "No materials added. Click \"Add Row\" to define the composition.",
+    "noProducts": "No Products Yet",
+    "addFirst": "Create your first product with its material composition.",
+    "product": "Product",
+    "salePrice": "Sale Price"
+  },
+  "optimization": {
+    "title": "Production Optimization",
+    "description": "Calculate ideal production quantities for maximum profit",
+    "run": "Run Optimization",
+    "calculating": "Calculating...",
+    "optimizing": "Optimizing Production",
+    "algorithm": "Running linear programming algorithm...",
+    "failed": "Optimization Failed",
+    "tryAgain": "Try Again",
+    "ready": "Ready to Optimize",
+    "readyDescription": "Click \"Run Optimization\" to calculate the best production mix based on your available raw materials and product definitions.",
+    "projectedProfit": "Total Projected Profit",
+    "suggestions": "Production Suggestions",
+    "suggestionsSub": "Recommended quantities for each product",
+    "noSuggestions": "No production suggestions available.",
+    "suggestedQty": "Suggested Qty",
+    "unitPrice": "Unit Price",
+    "subtotal": "Subtotal"
+  }
+}
