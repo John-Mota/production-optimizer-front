@@ -1,7 +1,9 @@
 import axios, { type AxiosPromise } from 'axios'
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.PROD 
+    ? 'https://production-optimizer-back.onrender.com/api' 
+    : '/api',
   headers: {
     'Content-Type': 'application/json',
   },
