@@ -67,8 +67,8 @@ describe('MaterialsView', () => {
 
     // Fill form
     const inputs = wrapper.findAll('input')
-    await inputs[0].setValue('Ferro')
-    await inputs[1].setValue(30)
+    await inputs[0]!.setValue('Ferro')
+    await inputs[1]!.setValue(30)
 
     // Submit
     ;(api.getMaterials as any).mockResolvedValue({
